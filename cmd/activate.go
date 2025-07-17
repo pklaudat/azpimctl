@@ -13,7 +13,11 @@ import (
 func activateRole(cmd *cobra.Command, args []string) {
 	fmt.Printf("Activate the PIM role for")
 	pimClient := pim.NewPimClient(pim.PIM_DEFAULT_SCOPE)
-	pimClient.ActivateElegibleRole()
+	var resourceID string
+	if len(args) > 0 {
+		resourceID = args[0]
+	}
+	pimClient.ActivateElegibleRole(resourceID)
 }
 
 // activateCmd represents the activate command

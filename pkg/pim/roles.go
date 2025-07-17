@@ -3,6 +3,8 @@ package pim
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/pklaudat/azpimctl/pkg/utils"
 )
 
 const ROLE_ARM_API_VERSION = "2022-04-01"
@@ -22,7 +24,7 @@ func GetRoleDisplayName(roleDefinitionID string, token string) (string, error) {
 		url = fmt.Sprintf("https://management.azure.com%s?api-version=%s", roleDefinitionID, ROLE_ARM_API_VERSION)
 	}
 
-	body := Request("GET", url, token, nil)
+	body := utils.Request("GET", url, token, nil)
 
 	var result RoleDefinition
 	if err := json.NewDecoder(body).Decode(&result); err != nil {
