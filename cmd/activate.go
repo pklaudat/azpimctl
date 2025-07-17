@@ -1,5 +1,5 @@
 /*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
+Copyright © 2025 Paulo Klaudat
 */
 package cmd
 
@@ -20,7 +20,6 @@ func activateRole(cmd *cobra.Command, args []string) {
 	pimClient.ActivateElegibleRole(resourceID)
 }
 
-// activateCmd represents the activate command
 var activateCmd = &cobra.Command{
 	Use:   "up",
 	Short: "Activate a PIM role for the given resource context.",

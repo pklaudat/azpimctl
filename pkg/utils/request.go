@@ -12,7 +12,7 @@ func Request(operation, url, token string, body io.Reader) io.ReadCloser {
 	req, err := http.NewRequest(operation, url, body)
 
 	if err != nil {
-		panic("Failed to create new request for PIM system.")
+		panic("Failed to create new request system.")
 	}
 
 	req.Header.Set("Authorization", "Bearer "+token)

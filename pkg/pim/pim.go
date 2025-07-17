@@ -11,7 +11,7 @@ import (
 const (
 	PIM_BASE_URL        = "https://management.azure.com/providers/Microsoft.Authorization/roleEligibilityScheduleInstances"
 	PIM_DEFAULT_SCOPE   = "https://management.azure.com"
-	PIM_ARM_API_VERSION = "?api-version=2020-10-01"
+	PIM_ARM_API_VERSION = "2020-10-01"
 )
 
 type pimClient struct {
