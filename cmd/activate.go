@@ -27,7 +27,7 @@ func activateRole(cmd *cobra.Command, args []string) {
 	} else {
 		hours = 8 // default to 8 hours if not provided
 	}
-	pimClient.ActivateElegibleRole(resourceID, strconv.Itoa(hours))
+	pimClient.ActivateElegibleRole(resourceID, "", strconv.Itoa(hours))
 }
 
 var activateCmd = &cobra.Command{

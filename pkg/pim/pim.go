@@ -1,12 +1,13 @@
 package pim
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"time"
 
 	"github.com/pklaudat/azpimctl/pkg/auth"
-	"github.com/pklaudat/azpimctl/pkg/pim"
 	"github.com/pklaudat/azpimctl/pkg/utils"
 )
 
@@ -43,21 +44,31 @@ func (p *pimClient) ListElegibleRoles() {
 
 }
 
-func (p *pimClient) ActivateElegibleRole(scope string, duration string) {
+func (p *pimClient) ActivateElegibleRole(scope, roleId, duration string) {
 
-	payload := pim.RoleActivationRequest{
-		RoleDefinition: "",
-		PrincipalId:    "",
-		RequestType:    "SelfActivate",
-		ScheduledInfo: ScheduledInfoProperties{
-			StartDateTime: time.Now().Local().Format(),
-			Expiration: ExpirationProperties{
-				Duration: "P8H",
-				Type:     "AfterDuration",
+	payload := RoleActivationRequest{
+		Properties: RoleActivationProperties{
+			RoleDefinitionId: roleId,
+			PrincipalId:      "",
+			RequestType:      "SelfActivate",
+			ScheduledInfo: ScheduledInfoProperties{
+				StartDateTime: time.Now().Local().String(),
+				Expiration: ExpirationProperties{
+					Duration: "P8H",
+					Type:     "AfterDuration",
+				},
 			},
 		},
 	}
 
-	utils.Request("PUT", PIM_BASE_URL, p.token, payload)
+	payloadBytes, err := json.Marshal(payload)
+
+	if err != nil {
+		panic("Failed to marshal payload")
+	}
+
+	body := io.NopCloser(bytes.NewReader(payloadBytes))
+
+	utils.Request("PUT", PIM_BASE_URL, p.token, body)
 
 }

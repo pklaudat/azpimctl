@@ -25,6 +25,5 @@ type RoleActivationProperties struct {
 }
 
 type RoleActivationRequest struct {
-	Properties struct {
-	}
+	Properties RoleActivationProperties
 }
