@@ -4,27 +4,38 @@ Copyright © 2025 Paulo Klaudat
 package cmd
 
 import (
-	"fmt"
+	"strconv"
 
 	"github.com/pklaudat/azpimctl/pkg/pim"
 	"github.com/spf13/cobra"
 )
 
 func activateRole(cmd *cobra.Command, args []string) {
-	fmt.Printf("Activate the PIM role for")
 	pimClient := pim.NewPimClient(pim.PIM_DEFAULT_SCOPE)
 	var resourceID string
 	if len(args) > 0 {
 		resourceID = args[0]
 	}
-	pimClient.ActivateElegibleRole(resourceID)
+	var hours int
+	if len(args) > 1 {
+		// Try to parse the hours argument from args[1]
+		var err error
+		hours, err = strconv.Atoi(args[1])
+		if err != nil {
+			hours = 8 // fallback to default if parsing fails
+		}
+	} else {
+		hours = 8 // default to 8 hours if not provided
+	}
+	pimClient.ActivateElegibleRole(resourceID, strconv.Itoa(hours))
 }
 
 var activateCmd = &cobra.Command{
-	Use:   "up",
-	Short: "Activate a PIM role for the given resource context.",
-	Long:  `Activate a specific role for the given scope via PIM.`,
-	Run:   activateRole,
+	Use:     "activate",
+	Short:   "Activate a PIM role for the given resource context.",
+	Long:    `Activate roles for the given scope using Privileged Identity Management APIs.`,
+	Aliases: []string{"up", "apply", "a"},
+	Run:     activateRole,
 }
 
 func init() {

@@ -3,8 +3,10 @@ package pim
 import (
 	"encoding/json"
 	"fmt"
+	"time"
 
 	"github.com/pklaudat/azpimctl/pkg/auth"
+	"github.com/pklaudat/azpimctl/pkg/pim"
 	"github.com/pklaudat/azpimctl/pkg/utils"
 )
 
@@ -41,15 +43,21 @@ func (p *pimClient) ListElegibleRoles() {
 
 }
 
-func (p *pimClient) ActivateElegibleRole(scope string) {
-	subscription, err := auth.GetContext()
+func (p *pimClient) ActivateElegibleRole(scope string, duration string) {
 
-	if err != nil {
-		panic("Failed to fetch current context")
+	payload := pim.RoleActivationRequest{
+		RoleDefinition: "",
+		PrincipalId:    "",
+		RequestType:    "SelfActivate",
+		ScheduledInfo: ScheduledInfoProperties{
+			StartDateTime: time.Now().Local().Format(),
+			Expiration: ExpirationProperties{
+				Duration: "P8H",
+				Type:     "AfterDuration",
+			},
+		},
 	}
 
-	fmt.Printf(subscription.SubscriptionID)
-
-	utils.Request("POST", PIM_BASE_URL, p.token, nil)
+	utils.Request("PUT", PIM_BASE_URL, p.token, payload)
 
 }

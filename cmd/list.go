@@ -12,8 +12,7 @@ import (
 
 func listCommand(cmd *cobra.Command, args []string) {
 	fmt.Printf("Listing PIM roles for user: \n")
-	scope := "abc"
-	pimClient := pim.NewPimClient(scope)
+	pimClient := pim.NewPimClient(pim.PIM_DEFAULT_SCOPE)
 	pimClient.ListElegibleRoles()
 
 }
@@ -28,14 +27,7 @@ var listCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(listCmd)
+	listCmd.Flags().StringP("subscription", "s", "", "The subscription display name or id")
+	listCmd.Flags().StringP("role", "r", "", "The role display name to filter")
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// pimCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// pimCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

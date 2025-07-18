@@ -30,6 +30,7 @@ func Execute() {
 }
 
 func init() {
+	// rootCmd.Printf("")
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.AddCommand(completionCmd)
 
